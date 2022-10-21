@@ -64,11 +64,9 @@ class ProductController{
       const listProductsService = new ProductService();
   
       const products = await listProductsService.list();
-      const categorias = await categoryService.list()
   
       return response.render("products/index", {
         products: products,
-        categorias: categorias
       });
     }
     async handleSearchProduct(request: Request, response: Response) {

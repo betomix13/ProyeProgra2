@@ -27,16 +27,11 @@ class ProductService {
       throw new Error("El producto ya ha sido creado");
     }
 
-    const newProduct = new Products()
-    newProduct.nombre = nombre
-    newProduct.marca = marca
-    newProduct.precio = precio
-    newProduct.id_category = id_category
+    const product = productsRepository.create({ nombre, marca, precio, id_category });
 
+    await productsRepository.save(product);
 
-    await productsRepository.save(newProduct);
-
-    return newProduct;
+    return product;
 
   }
 
