@@ -4,7 +4,7 @@ import { ProductService } from "../services/ProductService"
 
 class ProductController{
     async handleCreateProduct(request: Request, response: Response) {
-        const { nombre, marca, precio } = request.body;
+        const { nombre, marca, precio, id_category } = request.body;
     
         const createProductService = new ProductService();
     
@@ -12,7 +12,8 @@ class ProductController{
           await createProductService.create({
             nombre,
             marca,
-            precio
+            precio,
+            id_category
           }).then(() => {
             request.flash("succes", "producto creado exitosamente")
             response.redirect("/products")
@@ -52,18 +53,22 @@ class ProductController{
       const getProductDataService = new ProductService();
   
       const product = await getProductDataService.getData(id);
+      const categoria = await categoryService.list()
   
       return response.render("products/editproduct", {
-        product: product
+        product: product,
+        categoria: categoria
       });
     }
     async handleListProducts(request: Request, response: Response) {
       const listProductsService = new ProductService();
   
       const products = await listProductsService.list();
+      const categorias = await categoryService.list()
   
       return response.render("products/index", {
-        products: products
+        products: products,
+        categorias: categorias
       });
     }
     async handleSearchProduct(request: Request, response: Response) {
@@ -85,12 +90,12 @@ class ProductController{
       }
     }
     async handleUpdateProduct(request: Request, response: Response) {
-      const { id, nombre, marca, precio } = request.body;
+      const { id, nombre, marca, precio, id_category } = request.body;
   
       const updateProductService = new ProductService();
   
       try {
-        await updateProductService.update({ id, nombre, marca, precio }).then(() => {
+        await updateProductService.update({ id, nombre, marca, precio, id_category }).then(() => {
           request.flash("succes", "Producto modificado exitosamente")
             response.redirect("/products")
           });

@@ -17,6 +17,9 @@ class Products {
   @Column()
   precio: number;
 
+  @Column()
+  id_category: string;
+
   @ManyToOne(() => Categorias, categoria => categoria.productos)
   @JoinColumn({ name: 'id_category' })
   category: Categorias
